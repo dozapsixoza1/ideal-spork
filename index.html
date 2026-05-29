@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>OSINT досье · Вараксин М.А.</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0b0f15;
+      font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      margin: 0;
+      color: #e5e9f0;
+    }
+
+    .dossier {
+      max-width: 860px;
+      width: 100%;
+      background: rgba(12, 17, 23, 0.9);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(0, 255, 196, 0.15);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 200, 0.1);
+      border-radius: 2.2rem;
+      padding: 2.2rem 2rem;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .dossier::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: 2.35rem;
+      padding: 1px;
+      background: linear-gradient(145deg, rgba(0, 255, 200, 0.25), transparent 60%, rgba(0, 180, 255, 0.2));
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      -webkit-mask-composite: xor;
+      pointer-events: none;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 255, 200, 0.25);
+      padding-bottom: 1.2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-icon {
+      font-size: 2.1rem;
+      filter: drop-shadow(0 0 8px #00ffc3);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #a0f0ff, #00ffc3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .badge {
+      background: #0f1a1f;
+      border: 1px solid #00ffc3;
+      color: #00ffc3;
+      padding: 0.3rem 1.1rem;
+      border-radius: 3rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 0 12px rgba(0, 255, 195, 0.3);
+    }
+
+    .validated-badge {
+      background: #0a1219;
+      border: 1px solid #ffb347;
+      color: #ffb347;
+      padding: 0.3rem 1.2rem;
+      border-radius: 3rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 0 12px rgba(255, 179, 71, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .subject-block {
+      background: #0a1017;
+      border-left: 4px solid #00ffc3;
+      padding: 1.2rem 1.5rem;
+      border-radius: 1rem;
+      margin-bottom: 2.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .subject-name {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(0,255,200,0.5);
+    }
+
+    .subject-meta {
+      display: flex;
+      gap: 1.8rem;
+      color: #9aa9b9;
+      font-size: 0.9rem;
+      align-items: center;
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #00ffc3;
+      margin: 2rem 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-bottom: 1px dashed rgba(0, 255, 195, 0.25);
+      padding-bottom: 0.4rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .card {
+      background: #0e151c;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 1.2rem;
+      padding: 1rem 1.2rem;
+      backdrop-filter: blur(4px);
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      border-color: rgba(0, 255, 200, 0.35);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+
+    .card-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #5c7a8a;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-value {
+      font-weight: 600;
+      font-size: 1rem;
+      word-break: break-word;
+      color: #dce5ec;
+    }
+
+    .accent {
+      color: #00ffc3;
+      font-weight: 600;
+    }
+
+    .list-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .tag {
+      background: #1a232c;
+      padding: 0.3rem 0.9rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      border: 1px solid #2d3b47;
+    }
+
+    .phone-list, .id-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.4rem 0;
+    }
+
+    .phone-item, .id-item {
+      background: #101b22;
+      border: 1px solid #24333e;
+      border-radius: 1.5rem;
+      padding: 0.3rem 0.9rem;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #b9e6ff;
+    }
+
+    .link {
+      color: #5eeadb;
+      text-decoration: none;
+      border-bottom: 1px dotted #5eeadb;
+      word-break: break-all;
+    }
+
+    .validation-block {
+      background: #0e151c;
+      border: 1px solid #ffb34722;
+      border-radius: 1rem;
+      padding: 0.8rem 1.2rem;
+      margin: 1.5rem 0 2rem 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      backdrop-filter: blur(4px);
+    }
+
+    .validation-icon {
+      font-size: 1.5rem;
+      filter: drop-shadow(0 0 6px #ffb347);
+    }
+
+    .validation-text {
+      color: #ffb347;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .validation-user {
+      color: #fff;
+      background: #1f2e3a;
+      padding: 0.2rem 0.8rem;
+      border-radius: 2rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      border: 1px solid #ffb34755;
+    }
+
+    .footer-note {
+      margin-top: 2.5rem;
+      text-align: right;
+      font-size: 0.7rem;
+      color: #3b4a55;
+      border-top: 1px solid #1f2a32;
+      padding-top: 1.2rem;
+      letter-spacing: 0.4px;
+    }
+
+    hr {
+      border-color: rgba(255,255,255,0.05);
+      margin: 1rem 0;
+    }
+
+    @media (max-width: 550px) {
+      .dossier {
+        padding: 1.5rem;
+      }
+      .subject-name {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dossier">
+    <div class="header">
+      <div class="logo">
+        <span class="logo-icon">🔍</span>
+        <span class="logo-text">OSINT·ДОСЬЕ</span>
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+        <div class="badge">конфиденциально</div>
+        <div class="validated-badge">
+          <span>✅</span> Валидировано
+        </div>
+      </div>
+    </div>
+
+    <!-- Субъект -->
+    <div class="subject-block">
+      <div>
+        <div class="subject-name">Вараксин Максим Александрович</div>
+        <div style="color:#96a8b6; margin-top:0.2rem; font-size:0.9rem;">🇷🇺 Россия, Кемеровская область</div>
+      </div>
+      <div class="subject-meta">
+        <span>👤 субъект</span>
+      </div>
+    </div>
+
+    <!-- Блок валидации Alexander Lancet -->
+    <div class="validation-block">
+      <span class="validation-icon">🛡️</span>
+      <span class="validation-text">Проверку данных выполнил:</span>
+      <span class="validation-user">Alexander Lancet / @godlancet</span>
+    </div>
+
+    <!-- Родственные связи -->
+    <div class="section-title">
+      <span>🕸️</span> Родственные связи
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-label">👩‍👦 Мать</div>
+        <div class="card-value">Вараксина Людмила Владимировна</div>
+        <div style="font-size:0.8rem; color:#93b3c7; margin-top:0.3rem;">📅 06.03.1980 · 46 лет</div>
+        <div style="margin-top:0.5rem;">
+          <span class="tag">📞 +7 951 576-41-74</span>
+        </div>
+        <div style="margin-top:0.7rem; font-size:0.75rem; color:#7f95a5;">Паспорта:</div>
+        <div class="id-list">
+          <span class="id-item">3200652191</span>
+          <span class="id-item">3209742837</span>
+          <span class="id-item">3207412203</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">👤 Отец</div>
+        <div class="card-value">Даниил Суриков</div>
+        <div style="margin-top:0.7rem;">
+          <span>🔗 Одноклассники:</span><br>
+          <a href="https://ok.ru/profile/577596061218" target="_blank" rel="noopener noreferrer" class="link">ok.ru/profile/577596061218</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Контакты и email -->
+    <div class="section-title">
+      <span>📬</span> Электронная почта и аккаунты
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:1rem; align-items:center;">
+      <span class="tag">📧 alena06.89@inbox.ru</span>
+      <span class="tag">📧 alenka0.89@mail.ru</span>
+      <span style="color:#7e8c9b; font-size:0.8rem;">(принадлежность уточняется)</span>
+    </div>
+    <div style="margin-top:1rem;">
+      <span class="card-label">🌐 Профиль Max (привязан к номеру матери)</span>
+      <div><a href="https://max.ru/+79515764174" target="_blank" class="link">max.ru/+79515764174</a></div>
+    </div>
+
+    <!-- Телефонная книга -->
+    <div class="section-title">
+      <span>📞</span> Контактная книга (6 номеров)
+    </div>
+    <div class="phone-list">
+      <span class="phone-item">+7 950 262-94-83</span>
+      <span class="phone-item">+7 951 171-84-34</span>
+      <span class="phone-item">+7 904 574-42-47</span>
+      <span class="phone-item">+7 913 767-75-48</span>
+      <span class="phone-item">+7 953 574-05-94</span>
+      <span class="phone-item">+7 993 314-92-19</span>
+    </div>
+
+    <!-- Подарки: исходящие и входящие -->
+    <div class="section-title">
+      <span>🎁</span> Активность: подарки
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top:0.3rem;">
+      <div>
+        <div class="card-label" style="color:#f0a070;">⬆️ Исходящие (13)</div>
+        <div class="id-list" style="margin-top:0.3rem;">
+          <span class="id-item">#5193731734</span>
+          <span class="id-item">#5381888392</span>
+          <span class="id-item">#2907124212</span>
+          <span class="id-item">#8327500840</span>
+          <span class="id-item">#1130151644</span>
+          <span class="id-item">#5242690880</span>
+          <span class="id-item">#7296961665</span>
+          <span class="id-item">#5613371978</span>
+          <span class="id-item">#7808774627</span>
+          <span class="id-item">#7949336805</span>
+          <span class="id-item">#8258861539</span>
+          <span class="id-item">#1543567512</span>
+          <span class="id-item">#2067678867</span>
+        </div>
+      </div>
+      <div>
+        <div class="card-label" style="color:#7cc0ff;">⬇️ Входящие (6)</div>
+        <div class="id-list" style="margin-top:0.3rem;">
+          <span class="id-item">#5193731734</span>
+          <span class="id-item">#8158199276</span>
+          <span class="id-item">#7010308916</span>
+          <span class="id-item">#8002815913</span>
+          <span class="id-item">#7808774627</span>
+          <span class="id-item">#8568325821</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Группы в мессенджерах -->
+    <div class="section-title">
+      <span>💬</span> Группы (Telegram / чаты)
+    </div>
+    <div style="display:flex; flex-direction: column; gap:0.8rem; margin-top:0.5rem;">
+      <div style="display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap;">
+        <span class="badge" style="background:#0f212b;">18 мая 26</span>
+        <span class="tag">@nuls_bs_skachat</span> <span style="color:#b0c7d4;">Бравл Старс Чатик</span>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap;">
+        <span class="badge" style="background:#0f212b;">18 мая 26</span>
+        <span class="tag">@bloxfruits</span> <span style="color:#b0c7d4;">Blox Fruits | Трейд 🔥</span>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap;">
+        <span class="badge" style="background:#0f212b;">16 мая 26</span>
+        <span class="tag">@roblox_sailor_piece_pubg</span> <span style="color:#b0c7d4;">Chat</span>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap;">
+        <span class="badge" style="background:#0f212b;">16 мая 26</span>
+        <span class="tag">@brawlstarschat14</span> <span style="color:#b0c7d4;">Бравл старс Чат | Продажа Покупка Аккаунтов</span>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      ⚡ Досье сформировано строго на основе предоставленных данных. Источник: OSINT-отчёт. Никакие сведения не добавлены.<br>
+      🛡️ Валидатор: Alexander Lancet / @godlancet
+    </div>
+  </div>
+</body>
+</html>
